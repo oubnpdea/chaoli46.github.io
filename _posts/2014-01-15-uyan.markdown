@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "友言"
+date:   2014-01-15 23:00:00
+categories: jekyll update
+---
+
+今天新增了评论功能，采用的是[友言][uyHomepage]提供的在线评论组件，过程很简单。
+
+1. 注册友言账号；
+2. 在[帮助页面][uyDocument]中获取一个唯一的组件代码； 
+3. 在文章模版页面`_layouts\post.html`的最后粘贴上刚才获取的代码。
+
+组件新增完成之后，就可以去友言的[后台管理界面][uyAdmin]做一些界面风格、优先排序规则等等的高级设置了。
+
+另外根据[disqus官方帮助文档][disqus]的描述，可以在`post.html`中新增一个`comments`参数用来暂时屏蔽评论组件。
+
+
+
+[uyHomepage]: http://www.uyan.cc/
+[uyDocument]: http://www.uyan.cc/getcode
+[uyAdmin]:    http://www.uyan.cc/sites
+[disqus]:     http://help.disqus.com/customer/portal/articles/472138-jekyll-installation-instructions

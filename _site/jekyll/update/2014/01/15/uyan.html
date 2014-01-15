@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>李超的空想世界</title>
+        <title>友言</title>
         <meta name="viewport" content="width=device-width">
 
         <!-- syntax highlighting CSS -->
@@ -20,18 +20,31 @@
             <h1 class="title"><a href="/">李超的空想世界</a></h1>
           </div>
 
-          <div id="home">
-  <h1>最新文章</h1>
-  <ul class="posts">
-    
-      <li><span>2014-01-15</span> &raquo; <a href="/jekyll/update/2014/01/15/uyan.html">友言</a></li>
-    
-      <li><span>2014-01-13</span> &raquo; <a href="/life/2014/01/13/new-day.html">新的一天</a></li>
-    
-      <li><span>2014-01-12</span> &raquo; <a href="/jekyll/update/2014/01/12/welcome-to-jekyll.html">Welcome to Jekyll!</a></li>
-    
-  </ul>
+          <h2>友言</h2>
+<p class="meta">2014-01-15</p>
+
+<div class="post">
+<p>今天新增了评论功能，采用的是<a href="http://www.uyan.cc/">友言</a>提供的在线评论组件，过程很简单。</p>
+
+<ol>
+<li>注册友言账号；</li>
+<li>在<a href="http://www.uyan.cc/getcode">帮助页面</a>中获取一个唯一的组件代码； </li>
+<li>在文章模版页面<code>_layouts\post.html</code>的最后粘贴上刚才获取的代码。</li>
+</ol>
+
+<p>组件新增完成之后，就可以去友言的<a href="http://www.uyan.cc/sites">后台管理界面</a>做一些界面风格、优先排序规则等等的高级设置了。</p>
+
+<p>另外根据<a href="http://help.disqus.com/customer/portal/articles/472138-jekyll-installation-instructions">disqus官方帮助文档</a>的描述，可以在<code>post.html</code>中新增一个<code>comments</code>参数用来暂时屏蔽评论组件。</p>
+
 </div>
+
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1887904"></script>
+<!-- UY END -->
+
+
 
           <div class="footer">
             <div class="contact">
