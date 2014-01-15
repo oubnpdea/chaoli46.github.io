@@ -128,6 +128,12 @@ a:visited { color: #a0a; }
 /*****************************************************************************/
 
 /* standard */
+.post { 
+  /*border-bottom: 4px solid #eee;*/
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+}
+
 .post pre {
   border: 1px solid #ddd;
   background-color: #eef;
