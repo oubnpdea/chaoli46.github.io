@@ -9,7 +9,9 @@ categories: movie
 
 [ouchi]: http://www.mytvbt.net/viewthread.php?tid=3291&extra=page%3D1
 
-> 注意：内含剧透。
+```
+注意：内含剧透。
+```
 
 拖了一周左右，刚才我终于完整的看了一遍「[小小的家][ouchi]」。喜欢浸淫在好莱坞大片里的我，曾经最讨厌慢节奏的电影，这几年倒是慢慢习惯甚至喜欢上了。「小小的家」，就有一种日本电影特有的慢节奏。
 
