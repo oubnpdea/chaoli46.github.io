@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>RecursiveOpenStruct性能测试</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">李超的空想世界</a></h1>
+          </div>
+
+          <h2>RecursiveOpenStruct性能测试</h2>
+<p class="meta">2014-10-06</p>
+
+<div class="post">
+<p>今天看到RubyChina里的一个帖子（<a href="https://ruby-china.org/topics/21617">Ruby 中的 OpenStruct 详解</a>），想起自己的自动化测试项目里也用到了OpenStruct的增强版<a href="https://github.com/aetherknight/recursive-open-struct">RecursiveOpenStruct</a>，于是也照着帖子里的<a href="http://stackoverflow.com/questions/1177594/ruby-struct-vs-openstruct/4459132#4459132">stackoverflow回答</a>做了一个<code>RecursiveOpenStruct</code>的性能测试。</p>
+
+<p>实现：</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;ostruct&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;recursive-open-struct&#39;</span>
+
+<span class="no">REP</span> <span class="o">=</span> <span class="mi">100000</span>
+
+<span class="no">User</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
+
+<span class="no">USER</span> <span class="o">=</span> <span class="s2">&quot;User&quot;</span><span class="o">.</span><span class="n">freeze</span>
+<span class="no">AGE</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="no">HASH</span> <span class="o">=</span> <span class="p">{</span><span class="nb">name</span><span class="ss">:USER</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span><span class="no">AGE</span><span class="p">}</span><span class="o">.</span><span class="n">freeze</span>
+
+<span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span> <span class="mi">30</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;RecursiveOpenStruct slow&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+      <span class="no">RecursiveOpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">name</span><span class="ss">:&quot;User&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span><span class="mi">21</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;RecursiveOpenStruct fast&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+      <span class="no">RecursiveOpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">HASH</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;OpenStruct slow&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+       <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">name</span><span class="ss">:&quot;User&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span><span class="mi">21</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;OpenStruct fast&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+       <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">HASH</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;Struct slow&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+       <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;User&quot;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="s1">&#39;Struct fast&#39;</span> <span class="k">do</span>
+    <span class="no">REP</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">index</span><span class="o">|</span>
+       <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">USER</span><span class="p">,</span> <span class="no">AGE</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">                                     user     system      total        real
+RecursiveOpenStruct slow         1.870000   0.020000   1.890000 (  1.884342)
+RecursiveOpenStruct fast         1.790000   0.010000   1.800000 (  1.811618)
+OpenStruct slow                  1.300000   0.010000   1.310000 (  1.305426)
+OpenStruct fast                  1.250000   0.000000   1.250000 (  1.259883)
+Struct slow                      0.040000   0.010000   0.050000 (  0.041694)
+Struct fast                      0.030000   0.000000   0.030000 (  0.026384)
+</code></pre></div>
+<p>这里可以看出，<code>RecursiveOpenStruct</code>的性能比起Ruby自带的<code>Struct</code>慢了很多，毕竟一个是Ruby实现的，一个是C实现的哈。其实我在项目里应用<code>RecursiveOpenStruct</code>的原因很简单，就是为了提高代码的可读性。</p>
+
+<p>具体效果如下：</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># old</span>
+<span class="vg">$SYS</span><span class="o">.</span><span class="n">span</span><span class="p">(</span><span class="ss">class</span><span class="p">:</span> <span class="vi">@oc</span><span class="o">[</span><span class="s1">&#39;order_center&#39;</span><span class="o">][</span><span class="s1">&#39;node_class&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">text</span><span class="p">:</span> <span class="vi">@oc</span><span class="o">[</span><span class="s1">&#39;order_center&#39;</span><span class="o">][</span><span class="vi">@i18n</span><span class="o">]</span><span class="p">)</span>
+<span class="o">.</span><span class="n">when_present</span><span class="o">.</span><span class="n">click</span>
+
+<span class="c1"># new (use recursive-open-struct)</span>
+<span class="vg">$SYS</span><span class="o">.</span><span class="n">span</span><span class="p">(</span><span class="ss">class</span><span class="p">:</span> <span class="vi">@oc</span><span class="o">.</span><span class="n">order_center</span><span class="o">.</span><span class="n">node_class</span><span class="p">,</span> <span class="ss">text</span><span class="p">:</span> <span class="vi">@oc</span><span class="o">.</span><span class="n">order_center</span><span class="o">[</span><span class="vi">@i18n</span><span class="o">]</span><span class="p">)</span>
+<span class="o">.</span><span class="n">when_present</span><span class="o">.</span><span class="n">click</span>
+</code></pre></div>
+<p>通过应用了<code>RecursiveOpenStruct</code>，读取symbol中的值就像使用一个获取值的方法一样，非常自然。现在看来，应用在内部的自动化测试项目没有问题，如果要应用在实际的生产项目中需要好好考量一下。</p>
+
+</div>
+
+
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                <!-- 代码:<br /> -->
+                微博:<br />
+                邮件:
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <!-- <a target="_blank" href="https://github.com/davidlichao">github.com/davidlichao</a><br /> -->
+                <a target="_blank" href="http://weibo.com/chaosang">weibo.com/chaosang</a><br />
+                <a href="mailto:chaoli46@yahoo.com">chaoli46@yahoo.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>
