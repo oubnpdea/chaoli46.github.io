@@ -9,6 +9,12 @@ categories: ruby
 
 今天看到RubyChina里的一个帖子（[Ruby 中的 OpenStruct 详解](https://ruby-china.org/topics/21617)），想起自己的自动化测试项目里也用到了OpenStruct的增强版[RecursiveOpenStruct](https://github.com/aetherknight/recursive-open-struct)，于是也照着帖子里的[stackoverflow回答](http://stackoverflow.com/questions/1177594/ruby-struct-vs-openstruct/4459132#4459132)做了一个`RecursiveOpenStruct`的性能测试。
 
+环境：
+
+```
+ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-darwin13.0]
+```
+
 实现：
 
 ```ruby

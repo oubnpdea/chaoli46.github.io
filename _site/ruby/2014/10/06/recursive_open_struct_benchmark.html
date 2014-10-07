@@ -26,6 +26,9 @@
 <div class="post">
 <p>今天看到RubyChina里的一个帖子（<a href="https://ruby-china.org/topics/21617">Ruby 中的 OpenStruct 详解</a>），想起自己的自动化测试项目里也用到了OpenStruct的增强版<a href="https://github.com/aetherknight/recursive-open-struct">RecursiveOpenStruct</a>，于是也照着帖子里的<a href="http://stackoverflow.com/questions/1177594/ruby-struct-vs-openstruct/4459132#4459132">stackoverflow回答</a>做了一个<code>RecursiveOpenStruct</code>的性能测试。</p>
 
+<p>环境：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-darwin13.0]
+</code></pre></div>
 <p>实现：</p>
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;ostruct&#39;</span>
